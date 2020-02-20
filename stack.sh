@@ -30,6 +30,7 @@ echo $?
 
 echo "INSTALL APP SERVER"
 echo "Create APP User"
+useradd $APPUSER
 echo "Install Java"
 yum install java -y
 echo $?
@@ -38,3 +39,25 @@ echo "Download Tomcat"
 cd $APPHOME
 wget -qO- $TOMCAT_URL | tar -xz
 echo $?
+echo "Download Student App"
+wget https://s3-us-west-2.amazonaws.com/studentapi-cit/student.war -O /TOMCAT_DIR/webapps/student.war
+echo $?
+echo "Download mysql JDBC"
+wget https://s3-us-west-2.amazonaws.com/studentapi-cit/mysql-connector.jar -O /TOMCAT_DIR/lib/mysql-connector.jar
+echo $?
+echo "Add JDBC Connection"
+sed -i -e '/TestDB/ d' -e "$ i $JDBC_CONN" $TOMCAT_DIR/conf/context.xml
+echo $?
+echo "Fix permission"
+chown $APPUSER:$APPUSER $TOMCAT_DIR
+echo $?
+echo "setup tomcatinit script"
+wget -q https://s3-us-west-2.amazonaws.com/studentapi-cit/tomcat-init -o /etc/init.d/tomcat
+chmod +x /etc/init.d/tomcat
+echo $?
+echo "start tomcat services"
+systemctl daemon-reload 
+systemctl restart tomcat
+echo $?
+
+
