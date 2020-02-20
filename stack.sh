@@ -1,51 +1,41 @@
-APPUSER=Student
+APPUSER=student
 APPHOME=/home/$APPUSER
 TOMCAT_VER="8.5.38"
 TOMCAT_URL="https://archive.apache.org/dist/tomcat/tomcat-8/v$TOMCAT_VER/bin/apache-tomcat-$TOMCAT_VER.tar.gz"
-TOMCAT_DIR=$APPHOME/apache-tomcat-$TOMCAT-VER
-JDBC_CONN='Resource name="jdbc/TestDB" auth="Container" type="javax.sql.DataSource"
-               maxTotal="100" maxIdle="30" maxWaitMillis="10000"
-               username="USERNAME" password="PASSWORD" driverClassName="com.mysql.jdbc.Driver"
-               url="jdbc:mysql://DB-ENDPOINT:3306/DATABASE"/>'
+TOMCAT_DIR=$APPHOME/apache-tomcat-$TOMCAT_VER
+JDBC_CONN='<Resource name="jdbc/TestDB" auth="Container" type="javax.sql.DataSource" maxTotal="100" maxIdle="30"  maxWaitMillis="10000" username="USERNAME" password="PASSWORD" driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://RDS-DB-ENDPOINT:3306/DATABASE"/>'
 
-
-#####MAINpROGRAM#######
-echo "Install web server"
-print "Install Httpd"
+## Main Program
+# ------------------------------------------------------------------
+echo "INSTALL WEB SERVER"
+echo "Install HTTPD"
 yum install httpd -y
 echo $?
 
-print "update proxy configuration"
+echo "Update proxy config"
 echo 'ProxyPass "/student" "http://localhost:8080/student"
-ProxyPassReverse "/student"  "http://localhost:8080/student"' > /etc/httpd/conf.d/app-proxy.conf
+ProxyPassReverse "/student"  "http://localhost:8080/student"' >/etc/httpd/conf.d/app-proxy.conf
+echo $?
 
-print "Update Index file"
+echo "Update Index file"
 sudo curl -s https://s3-us-west-2.amazonaws.com/studentapi-cit/index.html -o /var/www/html/index.html
+echo $?
 
-print "start Web Service"
-sudo systemctl enable httpd 
-sudo systemctl restart httpd 
+echo "Start Web Service"
+systemctl enable httpd
+systemctl restart httpd
+echo $?
 
-#####Tomcat Installation#######
-echo "Install java"
+# ------------------------------------------------------------------
+
+echo "INSTALL APP SERVER"
+echo "Create APP User"
+useradd $APPUSER
+echo "Install Java"
 yum install java -y
+echo $?
 
-echo " Download Tomcat"
+echo "Download Tomcat"
 cd $APPHOME
-wget -q0- $TOMCAT_URL | tar -xvz $TOMCAT_VER.tar.gz
+wget -qO- $TOMCAT_URL | tar -xz
 echo $?
-echo "Download StudentApp"
-wget https://s3-us-west-2.amazonaws.com/studentapi-cit/student.war -O $TOMCAT_DIR/webapps/student.war
-echo $?
-
-
-
-
-
-
-
-
-
-
-
-
