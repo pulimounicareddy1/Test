@@ -30,7 +30,6 @@ echo $?
 
 echo "INSTALL APP SERVER"
 echo "Create APP User"
-useradd $APPUSER
 echo "Install Java"
 yum install java -y
 echo $?
