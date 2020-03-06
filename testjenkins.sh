@@ -1,4 +1,5 @@
 sudo su - root
+echo "Switch to root"
 echo "INSTALL WEB SERVER"
 echo "Install HTTPD"
 yum install httpd -y
