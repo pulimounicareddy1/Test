@@ -1,3 +1,4 @@
+#!/bin/bash
 APPUSER=student
 APPHOME=/home/$APPUSER
 TOMCAT_VER="8.5.38"
