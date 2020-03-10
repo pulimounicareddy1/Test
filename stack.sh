@@ -13,6 +13,7 @@ echo "Install HTTPD"
 yum install httpd -y
 echo $?
 
+chown jenkins /etc/httpd/conf.d/
 echo "Update proxy config"
 echo 'ProxyPass "/student" "http://localhost:8080/student"
 ProxyPassReverse "/student"  "http://localhost:8080/student"' >/etc/httpd/conf.d/app-proxy.conf
