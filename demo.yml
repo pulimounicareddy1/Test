@@ -1,0 +1,6 @@
+---
+- name: play
+  hosts: al1
+  tasks:
+    - name: Runuptime
+      shell: uptime
