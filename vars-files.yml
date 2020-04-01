@@ -1,0 +1,8 @@
+- name: Demo on vars_files
+  hosts: test
+  vars_files:
+    - test-vars.yml
+  tasks:
+    - name: Print UrL
+      debug:
+        msg: "URL == {{URL}}"
