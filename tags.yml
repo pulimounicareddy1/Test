@@ -1,0 +1,13 @@
+- name: Demo on tags
+  hosts: tests
+  tasks:
+    - name: Run httpd related tasks
+      debug:
+        msg: "Running HTTPD"
+      tags:
+        - httpd
+    - name: Run tomcat related tasks
+      debug:
+        msg: "Running Tomcat"
+      tags:
+        - tomcat
