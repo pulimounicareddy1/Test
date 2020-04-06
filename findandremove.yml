@@ -1,0 +1,15 @@
+- name: Find and remove files
+  hosts: test
+  tasks:
+    - name: find the files and directories
+      find:
+        path: /tmp/demo
+        file_type: any
+        patterns: 'student*'
+      register: out
+    - name: Remove Files and directory
+      file:
+        path: "{{item.path}}"
+        state: absent
+      loop: "{{out.files}}"
+      
