@@ -1,7 +1,7 @@
 #Debug Module
 ---
 - name: Demo on debug module
-  hosts: test
+  hosts: localhost
   tasks:
     - name: Print Sample
       debug:
