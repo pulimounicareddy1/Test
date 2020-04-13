@@ -42,4 +42,4 @@
 
 ## db-[99:101]-node.example.com
 [slave]
-172.31.18.67 ansible_user=ec2-user
+172.31.13.79 ansible_user=ec2-user
