@@ -1,0 +1,19 @@
+    - name: Install Httpd Package
+      yum:
+        name: httpd
+        state: latest
+    - name: Copy Httpd Configuration file
+      copy:
+        src: /srv/myfiles/foo.conf
+        dest: /etc/foo.conf
+    - name: Copy index.html file
+      copy:
+        src: /srv/myfiles/index.html
+        dest: /etc/index.html
+      notify: 
+        - restart httpd
+    - name: Start service httpd, if not started
+      service:
+        name: httpd
+        state: restarted
+        enabled: yes
